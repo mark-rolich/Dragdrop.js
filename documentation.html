@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Dragdrop.js documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+html, body {
+    font: 13px Arial;
+    margin: 0;
+    padding: 10px
+}
+
+h1, h2 {
+    margin: 0
+}
+
+h1 {
+    font-size: 18px
+}
+
+h2 {
+    font-size: 16px;
+    margin-top: 25px
+}
+
+pre {
+    border: solid 1px #C1E7FF;
+    background-color: #E8F6FF;
+    padding: 5px;
+    font-size: 12px;
+    margin: 0 0 10px 0
+}
+
+.main-wrapper {
+    width: 600px;
+    height: 100%
+}
+
+.section {
+    border: solid 1px #FFBCBC;
+    background-color: #FFE8E8;
+    padding: 3px
+}
+
+.info {
+    width: 350px;
+    height: 200px;
+    overflow: auto;
+    border: solid 1px #ccc;
+    padding: 5px;
+    margin-top: 10px
+}
+
+#upper {
+    border: solid 1px green
+}
+
+#lower {
+    border: solid 1px red
+}
+
+.draggable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    cursor: pointer;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+    width: 100px;
+    height: 100px
+}
+
+.basic {
+    background-color: green;
+    width: 100px;
+    height: 100px;
+    line-height: 100px
+}
+
+#horizontal {
+    background-color: blue
+}
+
+#vertical {
+    background-color: orange
+}
+
+#horizontal-limited {
+    background-color: green
+}
+
+#horizontal-snapped {
+    background-color: blue
+}
+</style>
+</head>
+<body>
+<div class="main-wrapper">
+<h1>Dragdrop.js</h1>
+
+<p>This Javascript package implements drag-n-drop functionality in a browser.</p>
+<p>Supports:</p>
+<ul>
+    <li>Moving an element horizontally, vertically and in both directions</li>
+    <li>Snap to grid functionality</li>
+    <li>Limitation of moving distance</li>
+    <li>Registering of user-defined function on start, move and stop</li>
+</ul>
+
+<p>Tested in the following browsers: IE 6.0, FF 17, Chrome 22, Safari 5.1.1</p>
+
+<p><strong>Dragdrop.js</strong> requires <strong>Event.js</strong> package, which can be acquired at the following links:</p>
+<div>
+<a href="https://github.com/mark-rolich/Event.js">Github</a><br>
+<a href="http://www.jsclasses.org/package/212-JavaScript-Handle-events-in-a-browser-independent-manner.html">JS Classes</a>
+</div>
+
+<h2>Basic usage</h2>
+
+<p class="section">Once initialized, <strong>Dradrop.js</strong> will apply drag-n-drop
+functionality to all HTML elements with <strong>class="draggable"</strong>:</p>
+
+<pre>
+var evt         = new Event(),
+    dragdrop    = new Dragdrop(evt);
+</pre>
+
+<div class="draggable basic">Basic example</div>
+
+<h2 style="margin-top: 120px">Advanced usage</h2>
+
+<p>To implement advanced options an element should be attached to <strong>Dragdrop.js</strong>,
+it can be done using <strong>set</strong> method:</p>
+
+<pre>
+var evt         = new Event(),
+    dragdrop    = new Dragdrop(evt),
+    something   = document.getElementById('something');
+
+dragdrop.set(something, {
+    mode: 0,
+    minX: 50,
+    maxX: 350,
+    minY: 50,
+    maxY: 350,
+    snap: 5,
+    onstart: function(element) {
+        // do something here
+    },
+    onmove: function(element) {
+        // do something here
+    },
+    onstop: function(element) {
+        // do something here
+    }
+});
+</pre>
+
+<p>which takes 2 arguments, first is the DOM element to be dragged,
+and the second is the options object which could have the following properties and values:</p>
+
+<ul>
+    <li>
+        <strong>mode</strong> (int)
+        <ul>
+            <li>0 - move in both directions (default)</li>
+            <li>1 - move horizontally</li>
+            <li>2 - move vertically</li>
+         </ul>
+        <li><strong>minX</strong> (int) - X coordinate limiting the most left position of the element, calculating from 0 (default 0)</li>
+        <li><strong>maxX</strong> (int) - X coordinate limiting the most right position of the element (default is browser window width)</li>
+        <li><strong>minY</strong> (int) - Y coordinate limiting the most top position of the element (default 0)</li>
+        <li><strong>maxY</strong> (int) - Y coordinate limiting the most bottom position of the element (default is browser window height)</li>
+        <li><strong>snap</strong> (int) - number of pixels to snap the element (default 1)</li>
+        <li><strong>onstart</strong> - handler for start (mousedown) event</li>
+        <li><strong>onmove</strong> - handler for move (mousemove) event</li>
+        <li><strong>onstop</strong> - handler for stop (mouseup) event</li>
+    </li>
+</ul>
+
+<p>All handlers receive DOM node as argument</p>
+
+<p>Some examples:</p>
+
+<p class="section">Move the element:</p>
+
+<pre>
+var evt         = new Event(),
+    dragdrop    = new Dragdrop(evt),
+    horizontal  = document.getElementById('horizontal'),
+    vertical    = document.getElementById('vertical'),
+    hLimited    = document.getElementById('horizontal-limited'),
+    hSnapped    = document.getElementById('horizontal-snapped');
+
+dragdrop.set(horizontal, {mode: 1});
+dragdrop.set(vertical, {mode: 2});
+dragdrop.set(hLimited, {mode: 1, minX: 50, maxX: 250});
+dragdrop.set(hSnapped, {mode: 1, snap: 50});
+</pre>
+
+<div id="horizontal" class="draggable">Horizontally</div>
+<div style="margin-top: 120px">&nbsp;</div>
+<div id="vertical" class="draggable">Vertically</div>
+<div style="margin-top: 120px">&nbsp;</div>
+<div id="horizontal-limited" class="draggable">Horizontally Limited</div>
+<div style="margin-top: 120px">&nbsp;</div>
+<div id="horizontal-snapped" class="draggable">Horizontally Snapped</div>
+<div style="margin-top: 120px">&nbsp;</div>
+
+<p>For more examples please refer to demo scripts provided with the package.</p>
+
+</div>
+<script type="text/javascript" src="https://raw.github.com/mark-rolich/Event.js/master/Event.js"></script>
+<script type="text/javascript" src="Dragdrop.js"></script>
+<script type="text/javascript">
+"use strict";
+var evt         = new Event(),
+    dragdrop    = new Dragdrop(evt),
+    horizontal  = document.getElementById('horizontal'),
+    vertical    = document.getElementById('vertical'),
+    hLimited    = document.getElementById('horizontal-limited'),
+    hSnapped    = document.getElementById('horizontal-snapped');
+
+dragdrop.set(horizontal, {mode: 1});
+dragdrop.set(vertical, {mode: 2});
+dragdrop.set(hLimited, {mode: 1, minX: 50, maxX: 250});
+dragdrop.set(hSnapped, {mode: 1, snap: 50});
+</script>
+</body>
+</html>

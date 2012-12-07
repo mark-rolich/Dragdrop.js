@@ -1,0 +1,84 @@
+body.advanced {
+    background: #fff url('grid.png') 0 0 repeat scroll
+}
+
+.draggable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    cursor: pointer;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    text-align: center
+}
+
+#green {
+    background-color: green;
+    height: 350px;
+    left: 0;
+    top: 0;
+    width: 350px;
+}
+
+#blue {
+    background-color: blue;
+    height: 300px;
+    left: 25px;
+    top: 25px;
+    width: 300px;
+}
+
+#red {
+    background-color: red;
+    height: 250px;
+    left: 50px;
+    top: 50px;
+    width: 250px;
+}
+
+#orange {
+    background-color: orange;
+    height: 200px;
+    left: 75px;
+    top: 75px;
+    width: 200px;
+}
+
+#magenta {
+    background-color: magenta;
+    height: 150px;
+    left: 100px;
+    top: 100px;
+    width: 150px;
+}
+
+#yellow {
+    background-color: yellow;
+    color: red;
+    height: 100px;
+    left: 125px;
+    top: 125px;
+    width: 100px;
+}
+
+#lightgreen {
+    background-color: lightgreen;
+    height: 50px;
+    left: 150px;
+    top: 150px;
+    width: 50px;
+}
+
+#info {
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 500px;
+    z-index: -1;
+}
