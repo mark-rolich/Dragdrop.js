@@ -28,25 +28,27 @@ var Dragdrop = function (evt) {
                       ? document.body.scrollHeight
                       : document.documentElement.clientHeight,
         move        = function (e) {
-            var xRemainder = (e.clientX - elem.posX) % elem.snap,
-                yRemainder = (e.clientY - elem.posY) % elem.snap;
+            var xDiff   = e.clientX - elem.posX,
+                yDiff   = e.clientY - elem.posY,
+                x       = xDiff - (xDiff % elem.snap) + 'px',
+                y       = yDiff - (yDiff % elem.snap) + 'px';
 
             if (started === 1) {
                 switch (elem.mode) {
                 case 0:
-                    elem.style.top = e.clientY - elem.posY - yRemainder + 'px';
-                    elem.style.left = e.clientX - elem.posX - xRemainder + 'px';
+                    elem.style.top = y;
+                    elem.style.left = x;
                     break;
                 case 1:
-                    elem.style.left = e.clientX - elem.posX - xRemainder + 'px';
+                    elem.style.left = x;
                     break;
                 case 2:
-                    elem.style.top = e.clientY - elem.posY - yRemainder + 'px';
+                    elem.style.top = y;
                     break;
                 }
 
                 if (elem.mode !== 2) {
-                    if (e.clientX - elem.posX <= elem.minX) {
+                    if (xDiff <= elem.minX) {
                         elem.style.left = elem.minX + 'px';
                     }
 
@@ -56,7 +58,7 @@ var Dragdrop = function (evt) {
                 }
 
                 if (elem.mode !== 1) {
-                    if (e.clientY - elem.posY <= elem.minY) {
+                    if (yDiff <= elem.minY) {
                         elem.style.top = elem.minY + 'px';
                     }
 
@@ -85,6 +87,10 @@ var Dragdrop = function (evt) {
                 }
 
                 elem.onStart(elem);
+
+                if (elem.setCapture) {
+                    elem.setCapture();
+                }
             }
         },
         stop        = function () {
@@ -92,6 +98,10 @@ var Dragdrop = function (evt) {
                 started = 0;
                 elem.onStop(elem);
                 evt.detach('mousemove', document, moveHandler);
+
+                if (elem.releaseCapture) {
+                    elem.releaseCapture();
+                }
             }
         };
 
