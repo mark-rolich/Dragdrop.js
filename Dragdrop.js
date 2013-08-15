@@ -21,12 +21,12 @@ var Dragdrop = function (evt) {
         started     = 0,
         self        = this,
         moveHandler = null,
+        doc         = document.documentElement,
+        body        = document.body,
         gWidth      = (document.body.scrollWidth > document.documentElement.clientWidth)
                       ? document.body.scrollWidth
                       : document.documentElement.clientWidth,
-        gHeight     = (document.body.scrollHeight > document.documentElement.clientHeight)
-                      ? document.body.scrollHeight
-                      : document.documentElement.clientHeight,
+        gHeight     = Math.max(body.scrollHeight, body.offsetHeight, doc.clientHeight, doc.scrollHeight, doc.offsetHeight),
         move        = function (e) {
             var xDiff   = e.clientX - elem.posX,
                 yDiff   = e.clientY - elem.posY,
@@ -107,6 +107,8 @@ var Dragdrop = function (evt) {
 
     evt.attach('mousedown', document, start, false);
     evt.attach('mouseup', document, stop, false);
+
+    this.start = start;
 
     this.set = function (element, elemOptions) {
         var options = elemOptions       || {};
